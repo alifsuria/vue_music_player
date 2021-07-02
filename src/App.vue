@@ -1,24 +1,68 @@
 <template>
   <div id="app" class="m-0 p-0">
-    <!-- <div class="overlay"> -->
-    <div id="nav" class="py-3 w-100">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <!-- <b-overlay :show="state.show" rounded="sm"> -->
-    <router-view class="w-100" />
-    <!-- </b-overlay> -->
+    <!-- <div class="overlay"> --><b-overlay
+      :show="state.show"
+      rounded="sm"
+      :variant="'dark'"
+      :opacity="1"
+    >
+      <div id="nav" class="py-3 w-100">
+        <router-link to="/">Home</router-link> |
+        <router-link to="/about">About</router-link>
+      </div>
 
-    <!-- </div> -->
+      <router-view class="w-100" />
+      <!-- </div> -->
+      <template #overlay>
+        <div class="text-center text-light">
+          <div>
+            <img
+              src="./assets/logo/Light mode/SVG/Artboard 1.svg"
+              width="200"
+              height="200"
+              class="logo-img"
+              alt=""
+            />
+          </div>
+          <b-icon icon="stopwatch" font-scale="3" animation="cylon"></b-icon>
+          <p class="my-3" id="cancel-label">Please wait...</p>
+        </div>
+        <b-progress
+          :value="state.progress_value"
+          :max="state.progress_max"
+          show-value
+          class="mb-3"
+        ></b-progress>
+      </template>
+    </b-overlay>
   </div>
 </template>
 <script>
-import { reactive } from "@vue/composition-api";
+import { onMounted, reactive } from "@vue/composition-api";
 export default {
   setup() {
     const state = reactive({
-      show: false,
+      show: true,
+      progress_value: 0,
+      progress_max: 100,
+      timer: 0,
     });
+
+    onMounted(() => {
+      startTimer();
+    });
+
+    function startTimer() {
+      state.timer = setInterval(() => {
+        let num = Math.random(Math.floor()) * 8;
+        console.log(num);
+        state.progress_value = state.progress_value += num;
+        if (state.progress_value >= 100) {
+          clearInterval(state.timer);
+          state.show = false;
+        }
+      }, 300);
+    }
 
     return { state };
   },
@@ -60,5 +104,13 @@ export default {
   color: #42b983;
 }
 
-@import url("./style/style.css")
+.b-overlay {
+  height: 100vh;
+}
+
+.progress {
+  width: 65vw;
+}
+
+@import url("./style/style.css");
 </style>
