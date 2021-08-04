@@ -173,8 +173,13 @@
 <script>
 // @ is an alias to /src
 import { computed, onMounted, reactive, ref } from "@vue/composition-api";
+<<<<<<< HEAD
 import Sidebar from "./components/Sidebar.vue";
 import Display from "./components/Display.vue";
+=======
+import Sidebar from "@/components/Sidebar.vue";
+import Display from "@/components/Display.vue";
+>>>>>>> aa5ef9316fe12dc88a3684a839c655f9e989ea34
 export default {
   name: "Home",
   components: { Sidebar, Display },
